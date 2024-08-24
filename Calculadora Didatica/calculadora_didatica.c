@@ -7,7 +7,7 @@
 * Data		Hora		Autor 			Comentário
 * ------------------------------------------------------------------
 * 22/08     18:00    Lucas Ferreira      Primeira Questão
-*
+* 22/08     18:45    Lucas Ferreira      Segunda Questão
 /******************************************************************/
 
 
@@ -86,6 +86,53 @@ void decimalToBCD(char decimals[], int array_size) {
 
 }
 
+void decimalToBinaryComplement2(int decimal) {
+    char binary[16];
+    char result[16];
+    int i;
+
+    printf("\nValor %d em binario (complemento a 2): ", decimal);
+
+    for (i = 15; i >= 0; i--) {
+        if (decimal % 2 == 0) {
+            binary[i] = '0';
+        } else {
+            binary[i] = '1';
+        }
+        decimal /= 2;
+    }
+
+    printf("\nBinario invertido: ");
+
+    for (i = 0; i < 16; i++) {
+        if (binary[i] == '0') {
+            binary[i] = '1';
+        } else {
+            binary[i] = '0';
+        }
+        printf("%c", binary[i]);
+    }
+
+    int carry = 1;
+    for (i = 15; i >= 0; i--) {
+        if (binary[i] == '1' && carry == 1) {
+            result[i] = '0';
+        } else if (binary[i] == '0' && carry == 1) {
+            result[i] = '1';
+            carry = 0;
+        } else {
+            result[i] = binary[i];
+        }
+    }
+
+    printf("\nBinario em complemento a 2: ");
+
+    for (i = 0; i < 16; i++) {
+        printf("%c", result[i]);
+    }
+    printf("\n");
+}
+
 int main() {
     int op, valor;
     printf("Calculadora Didatica\n======================\n Escolha as Opcoes de Conversao:\n1-Base2\n2-Base8\n3-Base16\n4-BCD\n5-Base 2 Complemento a 2\n6-Coverter para Float e Double\n");
@@ -124,4 +171,15 @@ int main() {
         int size = strlen(buffer);
 
         decimalToBCD(buffer, size);
+        
+    //complemento a 2
+    } else if(op == 5) { 
+        printf("Digite o valor em decimal: ");
+        scanf("%d", &valor);
+
+        decimalToBinaryComplement2(valor);
+
+    } else {
+        printf("Opcao invalida");
+    }
 }
