@@ -8,6 +8,8 @@
 * ------------------------------------------------------------------
 * 22/08     18:00    Lucas Ferreira      Primeira Questão
 * 22/08     18:45    Lucas Ferreira      Segunda Questão
+* 22/08     21:30    Lucas Ferreira      Terceira Questão
+*
 /******************************************************************/
 
 
@@ -133,6 +135,140 @@ void decimalToBinaryComplement2(int decimal) {
     printf("\n");
 }
 
+
+void decimalToFloat(float decimal) {
+    char binary_signal;
+    char binary_exponent[8];
+    char binary_fraction[23];
+
+    
+    if (decimal < 0) {
+        binary_signal = 1;
+        decimal = -decimal; 
+        binary_signal = 0;
+    }
+
+    // Normalização
+    int exponent = 0;
+    float fraction = decimal;
+    
+    while (fraction >= 2) {
+        fraction /= 2;
+        exponent++;
+    }
+    while (fraction < 1) {
+        fraction *= 2;
+        exponent--;
+    }
+
+    
+    exponent += 127;
+
+    printf("\nExpoente BIAS: %d\n", exponent);
+
+    printf("\nBinario Enviesado: ");
+    for (int i = 7; i >= 0; i--) {
+        binary_exponent[i] = (exponent % 2) + '0';
+        exponent /= 2;
+        printf("%c", binary_exponent[i]);
+    }
+
+    printf("\nFracao: ");
+    fraction -= 1; 
+    for (int i = 0; i < 23; i++) {
+        fraction *= 2;
+        if (fraction >= 1) {
+            binary_fraction[i] = '1';
+            fraction -= 1;
+        } else {
+            binary_fraction[i] = '0';
+        }
+        printf("%c", binary_fraction[i]);
+    }
+
+    
+    printf("\n Resultado \n");
+
+    printf("Sinal: %d\n", binary_signal);
+
+    printf("Expoente Enviesado: ");
+    for (int i = 0; i < 8; i++) {
+        printf("%c", binary_exponent[i]);
+    }
+
+    printf("\nFracao: ");
+    for (int i = 0; i < 23; i++) {
+        printf("%c", binary_fraction[i]);
+    }
+    printf("\n");
+}
+
+void decimalToDouble(float decimal) {
+    char binary_signal;
+    char binary_exponent[11];
+    char binary_fraction[52];
+
+    int expoente = 0;
+
+    if (decimal < 0) {
+        binary_signal = 1;
+        decimal = -decimal; 
+        binary_signal = 0;
+    }
+
+    // Normalização
+    int exponent = 0;
+    float fraction = decimal;
+    
+    while (fraction >= 2) {
+        fraction /= 2;
+        exponent++;
+    }
+    while (fraction < 1) {
+        fraction *= 2;
+        exponent--;
+    }
+
+    
+    exponent += 1023;
+
+    printf("\nExpoente BIAS: %d\n", exponent);
+
+    printf("\nBinario Enviesado: ");
+    for (int i = 10; i >= 0; i--) {
+        binary_exponent[i] = (exponent % 2) + '0';
+        exponent /= 2;
+    }
+
+    printf("\nFracao: ");
+    fraction -= 1; 
+    for (int i = 0; i < 52; i++) {
+        fraction *= 2;
+        if (fraction >= 1.0) {
+            binary_fraction[i] = '1';
+            fraction -= 1.0;
+        } else {
+            binary_fraction[i] = '0';
+        }
+    }
+
+    
+    printf("\n Resultado \n");
+
+    printf("Sinal: %d\n", binary_signal);
+
+    printf("Expoente Enviesado: ");
+    for (int i = 0; i < 11; i++) {
+        printf("%c", binary_exponent[i]);
+    }
+
+    printf("\nFracao: ");
+    for (int i = 0; i < 52; i++) {
+        printf("%c", binary_fraction[i]);
+    }
+    printf("\n");
+}
+
 int main() {
     int op, valor;
     printf("Calculadora Didatica\n======================\n Escolha as Opcoes de Conversao:\n1-Base2\n2-Base8\n3-Base16\n4-BCD\n5-Base 2 Complemento a 2\n6-Coverter para Float e Double\n");
@@ -178,6 +314,24 @@ int main() {
         scanf("%d", &valor);
 
         decimalToBinaryComplement2(valor);
+
+    //numero real para float e double
+    } else if(op == 6) {
+        float valor_real;
+        int op2;
+
+        printf("Digite o valor real: ");
+        scanf("%f", &valor_real);
+        printf("Escolha a opcao de conversao:\n1-Float\n2-Double\n");
+        scanf("%d", &op2);
+
+        if(op2 == 1) {
+            decimalToFloat(valor_real);
+        } else if(op2 == 2) {
+            decimalToDouble(valor_real);
+        } else {
+            printf("Opcao invalida");
+        }
 
     } else {
         printf("Opcao invalida");
