@@ -9,6 +9,7 @@
 * 22/08     18:00    Lucas Ferreira      Primeira Questão
 * 22/08     18:45    Lucas Ferreira      Segunda Questão
 * 22/08     21:30    Lucas Ferreira      Terceira Questão
+* 26/08     20:35    Lucas Ferreira      Correção da Conversão para Hexadecimal
 *
 /******************************************************************/
 
@@ -50,17 +51,28 @@ void decimalToOctal(int decimal) {
 }
 
 void decimalToHexadecimal(int decimal) {
-    char hexadecimal[2];
+    char hexadecimal[3];
+    int i = 1;
 
     printf("Valor %d em hexadecimal: ", decimal);
 
-    for(int i = 0; i < 2; i++) {
-        printf("\nResto da divisao de %d por 16: %d\n", decimal, decimal % 2);
-        hexadecimal[2-i] = decimal % 16;
-        decimal /= 16;
+    while (decimal != 0) {
+        int valor = decimal % 16;
+        printf("\nResto da divisao de %d por 16: %d\n", decimal, valor);
 
-        printf("%d", hexadecimal[2-i]);
+        if (valor < 10) {
+            hexadecimal[i] = valor + '0'; 
+        } else {
+            hexadecimal[i] = valor - 10 + 'A'; 
+        }
+
+        decimal /= 16;
+        i--;
     }
+
+    hexadecimal[2] = '\0';
+
+    printf("%s\n", &hexadecimal[i + 1]);
 }
 
 void decimalToBCD(char decimals[], int array_size) {
